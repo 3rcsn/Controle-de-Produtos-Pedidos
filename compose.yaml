@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: 'postgres:18.4'
+    container_name: postgres-db
+    restart: unless-stopped
+    environment:
+      - 'POSTGRES_DB=controle-de-produtos-pedidos-db'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=klab'
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  app:
+    build: .
+    container_name: controle-de-produtos-pedidos
+    restart: on-failure
+    depends_on:
+      - postgres
+    environment:
+      - 'SPRING_DATASOURCE_USERNAME=myuser'
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/controle-de-produtos-pedidos-db'
+      - 'SPRING_DATASOURCE_PASSWORD=secret'
+      - 'SPRING_DATASOURCE_USERNAME=klab'
+      - 'SPRING_JPA_HIBERNATE_DDL_AUTO=update'
+    ports:
+      - "8080:8080"
+volumes:
+  postgres_data:
