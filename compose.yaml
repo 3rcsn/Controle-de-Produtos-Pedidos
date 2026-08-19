@@ -1,7 +1,6 @@
 services:
   postgres:
     image: 'postgres:18.4'
-    container_name: postgres-db
     restart: unless-stopped
     environment:
       - 'POSTGRES_DB=controle-de-produtos-pedidos-db'
@@ -10,7 +9,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/
   app:
     build: .
     container_name: controle-de-produtos-pedidos
@@ -24,10 +23,11 @@ services:
       - 'SPRING_DATASOURCE_USERNAME=klab'
       - 'SPRING_JPA_HIBERNATE_DDL_AUTO=update'
     ports:
-      - "8080:8080"
+      - "80:8080"
+    networks:
+      - pg_net
   pgadmin:
     image: 'dpage/pgadmin4'
-    container_name: pgadmin
     restart: unless-stopped
     ports:
       - 5050:80
@@ -43,6 +43,7 @@ services:
       - pg_net
 volumes:
   postgres_data:
+  pgadmin_data:
 
 networks:
   pg_net:
