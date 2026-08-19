@@ -19,8 +19,6 @@ public class PedidoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer numero;
     private Date data;
-    @OneToMany
-    private ProdutoEntity produtoEntity;
 
     public PedidoEntity(PedidoDto pedidoDto) {
         this.numero = pedidoDto.numero();

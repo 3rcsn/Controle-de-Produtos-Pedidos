@@ -6,13 +6,17 @@ import com.ericson.controle_de_produtos_pedidos.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PedidoService {
 
     @Autowired
     PedidoRepository pedidoRepository;
 
-    public PedidoDto inserir (PedidoDto pedidoDto) {
+    public PedidoDto inserirPedido (PedidoDto pedidoDto) {
 
         PedidoEntity pedidoEntity = new PedidoEntity(pedidoDto);
 
@@ -22,14 +26,35 @@ public class PedidoService {
 
     }
 
+    public List<PedidoDto> inserirPedidos (List<PedidoDto> pedidosDto) {
+
+        List<PedidoEntity> pedidoEntities = new ArrayList<>();
+
+        pedidoEntities = converterParaEntidades(pedidosDto);
+
+        pedidoRepository.saveAll(pedidoEntities);
+
+        return pedidosDto;
+
+    }
+
     public PedidoDto atualizar (PedidoDto pedidoDto) {
 
-        PedidoEntity pedidoEntity = new PedidoEntity(pedidoDto);
-
-        pedidoRepository.buscarPorId()
+       PedidoEntity pedidoEntity = pedidoRepository.findById(pedidoDto.numero())
+               .orElseThrow(() -> new RuntimeException("Pedido não encontrado."));
 
        return pedidoDto;
 
+    }
+
+    public List<PedidoEntity> converterParaEntidades(List<PedidoDto> pedidosDto) {
+        if (pedidosDto == null) {
+            return null;
+        }
+
+        return pedidosDto.stream()
+                .map(dto -> new PedidoEntity(dto))
+                .collect(Collectors.toUnmodifiableList());
     }
 
 }

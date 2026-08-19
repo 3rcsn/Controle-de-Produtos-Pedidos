@@ -3,28 +3,38 @@ package com.ericson.controle_de_produtos_pedidos.controller;
 import com.ericson.controle_de_produtos_pedidos.dto.PedidoDto;
 import com.ericson.controle_de_produtos_pedidos.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/pedido")
 public class PedidoController {
 
-    @Autowired
-    PedidoService pedidoService;
+    @PostMapping("inserir")
+    public ResponseEntity<PedidoDto> inserirPedido (@RequestBody PedidoDto pedido) {
 
-    @PostMapping
-    public ResponseEntity<?> inserir (@RequestBody PedidoDto pedido) {
-
-        PedidoDto novoPedido = pedidoService.inserir(pedido);
+        PedidoDto novoPedido = pedidoService.inserirPedido(pedido);
 
         return ResponseEntity.ok(novoPedido);
 
     }
 
+    @PostMapping("inserir-lista")
+    public ResponseEntity<List<PedidoDto>> inserirPedidos (@RequestBody List<PedidoDto> pedidos) {
+
+        List<PedidoDto> novosPedidos = pedidoService.inserirPedidos(pedidos);
+
+        return ResponseEntity.ok(novosPedidos);
+
+    }
+
+    @Autowired
+    PedidoService pedidoService;
+
     @PutMapping
-    public ResponseEntity<?> atualizar (@RequestBody PedidoDto pedido) {
+    public ResponseEntity<PedidoDto> atualizar (@RequestBody PedidoDto pedido) {
 
         PedidoDto pedidoAtualizado = pedidoService.atualizar(pedido);
 
@@ -33,11 +43,16 @@ public class PedidoController {
     }
 
     @PatchMapping
-    @Param()
     public ResponseEntity<PedidoDto> atualizarParcialmente (@RequestBody PedidoDto pedido) {
 
+        PedidoDto pedidoAtualizado = pedidoService.atualizar(pedido);
 
-        return ResponseEntity.ok(pedido);
+        return ResponseEntity.ok(pedidoAtualizado);
     }
+
+    /*@DeleteMapping
+    public ResponseEntity<PedidoDto> excluir (@RequestBody PedidoDto pedido) {
+
+    }*/
 
 }
