@@ -1,5 +1,7 @@
 package com.ericson.controle_de_produtos_pedidos.dto;
 
-public record ProdutoDto (Integer codigo, String descricao, Double preco) {
+import java.math.BigDecimal;
+
+public record ProdutoDto (Integer codigo, String descricao, BigDecimal preco) {
 
 }
