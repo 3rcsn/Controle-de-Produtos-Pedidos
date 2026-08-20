@@ -3,6 +3,7 @@ package com.ericson.controle_de_produtos_pedidos.controller;
 import com.ericson.controle_de_produtos_pedidos.dto.PedidoDto;
 import com.ericson.controle_de_produtos_pedidos.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class PedidoController {
 
         PedidoDto novoPedido = pedidoService.inserirPedido(pedido);
 
-        return ResponseEntity.ok(novoPedido);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoPedido);
 
     }
 
@@ -26,7 +27,7 @@ public class PedidoController {
 
         List<PedidoDto> novosPedidos = pedidoService.inserirPedidos(pedidos);
 
-        return ResponseEntity.ok(novosPedidos);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novosPedidos);
 
     }
 
