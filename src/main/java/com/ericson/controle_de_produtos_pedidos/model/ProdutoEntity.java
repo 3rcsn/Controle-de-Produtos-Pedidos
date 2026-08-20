@@ -1,20 +1,19 @@
 package com.ericson.controle_de_produtos_pedidos.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "produto")
 public class ProdutoEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer codigo;
     private String descricao;
-    private Double preco;
+    private BigDecimal preco;
+
+    @ManyToOne
+    private DepartamentoEntity departamento;
 
 }

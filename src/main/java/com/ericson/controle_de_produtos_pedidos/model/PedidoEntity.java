@@ -15,7 +15,7 @@ public class PedidoEntity {
     private Integer numero;
     private Date data;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "pedido_numero", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProdutoPedido> produtos = new ArrayList<>();
 
     public PedidoEntity(PedidoDto pedidoDto) {
