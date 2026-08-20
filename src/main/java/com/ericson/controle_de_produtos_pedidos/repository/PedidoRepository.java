@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Repository
 public interface PedidoRepository extends JpaRepository<PedidoEntity, Integer> {
 
@@ -19,8 +22,10 @@ public interface PedidoRepository extends JpaRepository<PedidoEntity, Integer> {
             FROM PEDIDO p
                 JOIN PRODUTO_PEDIDO pp ON (p.numero = pp.pedido_numero)
                 JOIN PRODUTO prod ON (pp.codigo_produto = p.codigo)
-            WHERE p.numero = ?1
+            WHERE p.data BETWEEN ?1 and ?2
+            ORDER BY
+             p.numero, pp.codigo_produto
             """,  nativeQuery = true)
-    PedidoEntity buscarPorId(Integer numero);
+    List<PedidoEntity> buscarPorPeriodo(LocalDate dataInicial, LocalDate dataFinal);
 
 }
