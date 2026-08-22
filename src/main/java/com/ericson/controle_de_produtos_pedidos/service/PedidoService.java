@@ -7,7 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -17,6 +17,7 @@ public class PedidoService {
     @Autowired
     PedidoRepository pedidoRepository;
 
+
     public PedidoDto inserirPedido (PedidoDto pedidoDto) {
         PedidoEntity pedidoEntity = new PedidoEntity(pedidoDto);
         pedidoRepository.save(pedidoEntity);
@@ -24,15 +25,14 @@ public class PedidoService {
     }
 
     public List<PedidoDto> inserirPedidos (List<PedidoDto> pedidosDto) {
-        List<PedidoEntity> pedidoEntities = new ArrayList<>();
-        pedidoEntities = converterParaEntidades(pedidosDto);
+        List<PedidoEntity> pedidoEntities = converterParaEntidades(pedidosDto);
         pedidoRepository.saveAll(pedidoEntities);
         return pedidosDto;
     }
 
     public PedidoDto atualizar (PedidoDto pedidoDto) {
-       PedidoEntity pedidoEntity = pedidoRepository.findById(pedidoDto.numero())
-               .orElseThrow(() -> new RuntimeException("Pedido não encontrado."));
+       //PedidoEntity pedidoEntity = pedidoRepository.findById(pedidoDto.getNumero())
+       //        .orElseThrow(() -> new RuntimeException("Pedido não encontrado."));
        return pedidoDto;
     }
 
@@ -43,6 +43,30 @@ public class PedidoService {
         return pedidosDto.stream()
                 .map(PedidoEntity::new)
                 .toList();
+    }
+
+    public PedidoDto getPedidoPorId(Integer codigo){
+
+        PedidoDto pedido = new PedidoDto();
+
+        pedido.fromEntity(pedidoRepository.getReferenceById(codigo));
+
+        return pedido;
+
+    }
+
+    public List<PedidoDto> getPedidosPorPeriodo(LocalDate dataInicial, LocalDate dataFinal){
+
+        List<PedidoEntity> pedidos = pedidoRepository.buscarPorPeriodo(dataInicial, dataFinal)
+                .stream().toList();
+
+        return pedidos.stream().map(
+                pedidoEntity -> {
+                    PedidoDto pedido = new PedidoDto();
+                    return pedido.fromEntity(pedidoEntity);
+                }
+        ).toList();
+
     }
 
 }
