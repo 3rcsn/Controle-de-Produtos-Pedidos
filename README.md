@@ -6,6 +6,14 @@ Documentação da API – Desafio Klab
 
 Para executar a aplicacao certificar-se que a engine do Docker esta sendo executada, executar o comando docker compose up na raiz do projeto. 
 
+Necessario popular dados:
+
+INSERT INTO departamento VALUES (1, 'Frios');
+INSERT INTO departamento VALUES (2, 'Ferragens');
+
+INSERT INTO produto VALUES (1, 'Tilápia', 10.99, 1);
+INSERT INTO produto VALUES (2, 'Parafuso', 5.99, 2);
+
   ---
 Base Path
 
