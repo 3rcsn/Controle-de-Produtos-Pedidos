@@ -16,20 +16,14 @@ public class PedidoService {
     @Autowired
     PedidoRepository pedidoRepository;
 
-
     public Pedido inserirPedido (Pedido pedido) {
         return pedidoRepository.save(pedido);
     }
 
     public Pedido atualizar(Pedido pedidoAtualizado) {
-        Pedido pedidoExistente = pedidoRepository.findById(pedidoAtualizado.getNumero())
-                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
-
-        /*for (ProdutoPedido produto : pedidoAtualizado.getProdutos()) {
-            produto.(pedidoExistente);
-            pedidoExistente.getItens().add(item);
-        }*/
-        return pedidoRepository.save(pedidoExistente);
+        pedidoRepository.findById(pedidoAtualizado.getNumero())
+            .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+        return pedidoRepository.save(pedidoAtualizado);
     }
 
     public void excluir(Integer numero) {

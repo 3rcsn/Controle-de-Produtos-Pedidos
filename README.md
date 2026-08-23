@@ -41,42 +41,33 @@ POST /api/pedido/inserir
 Content-Type: application/json
 
 {
-"numero": 1,
-"data": "2026-08-23",
+"numero": 6,
+"data": "2026-08-23" ,
 "produtos": [
 {
-"codigo": 5,
-"descricao": "Parafuso",
-"quantidade": 1,
-"preco": 45.90
-},
-{
-"codigo": 6,
-"descricao": "Chave Inglesa",
-"quantidade": 1,
-"preco": 50.99
+"codigo": 1,
+"descricao": "Tilápia",
+"quantidade": 2,
+"preco": 10.99,
+"departamento_codigo": 1
 }
 ]
 }
 
 Resposta (201 Created)
 {
-"numero": 1,
 "data": "2026-08-23",
+"numero": 6,
 "produtos": [
 {
-"codigo": 5,
-"descricao": "Parafuso",
-"quantidade": 1,
-"preco": 45.90
-},
-{
-"codigo": 6,
-"descricao": "Chave Inglesa",
-"quantidade": 1,
-"preco": 50.99
+"id": 1,
+"pedido": null,
+"preco": 10.99,
+"produto": null,
+"quantidade": 2
 }
-]
+],
+"totalPedido": null
 }
 
 2. Excluir pedido

@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "produto")
-@AllArgsConstructor
 @Getter
 @Setter
 public class Produto {

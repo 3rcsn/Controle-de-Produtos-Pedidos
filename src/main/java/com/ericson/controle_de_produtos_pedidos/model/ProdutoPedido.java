@@ -10,8 +10,6 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "produto_pedido")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class  ProdutoPedido {
@@ -22,11 +20,11 @@ public class  ProdutoPedido {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "numero")
+    @JoinColumn(name = "pedido_numero", referencedColumnName = "numero")
     private Pedido pedido;
 
     @ManyToOne
-    @JoinColumn(name = "codigo")
+    @JoinColumn(name = "produto_codigo", referencedColumnName = "codigo")
     private Produto produto;
 
     private Integer quantidade;
