@@ -1,7 +1,7 @@
 package com.ericson.controle_de_produtos_pedidos.service;
 
 import com.ericson.controle_de_produtos_pedidos.dto.PedidoDto;
-import com.ericson.controle_de_produtos_pedidos.model.PedidoEntity;
+import com.ericson.controle_de_produtos_pedidos.model.Pedido;
 import com.ericson.controle_de_produtos_pedidos.repository.PedidoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +18,8 @@ public class PedidoService {
     PedidoRepository pedidoRepository;
 
 
-    public PedidoDto inserirPedido (PedidoDto pedidoDto) {
-        PedidoEntity pedidoEntity = new PedidoEntity(pedidoDto);
-        pedidoRepository.save(pedidoEntity);
-        return pedidoDto;
-    }
-
-    public List<PedidoDto> inserirPedidos (List<PedidoDto> pedidosDto) {
-        List<PedidoEntity> pedidoEntities = converterParaEntidades(pedidosDto);
-        pedidoRepository.saveAll(pedidoEntities);
-        return pedidosDto;
+    public Pedido inserirPedido (Pedido pedido) {
+        return pedidoRepository.save(pedido);
     }
 
     public PedidoDto atualizar (PedidoDto pedidoDto) {
@@ -36,36 +28,17 @@ public class PedidoService {
        return pedidoDto;
     }
 
-    public List<PedidoEntity> converterParaEntidades(List<PedidoDto> pedidosDto) {
-        if (pedidosDto == null) {
-            return null;
-        }
-        return pedidosDto.stream()
-                .map(PedidoEntity::new)
-                .toList();
-    }
+    public Pedido getPedidoPorId(Integer codigo){
 
-    public PedidoDto getPedidoPorId(Integer codigo){
+        return pedidoRepository.getReferenceById(codigo);
 
-        PedidoDto pedido = new PedidoDto();
-
-        pedido.fromEntity(pedidoRepository.getReferenceById(codigo));
-
-        return pedido;
 
     }
 
-    public List<PedidoDto> getPedidosPorPeriodo(LocalDate dataInicial, LocalDate dataFinal){
+    public List<Pedido> getPedidosPorPeriodo(LocalDate dataInicial, LocalDate dataFinal){
 
-        List<PedidoEntity> pedidos = pedidoRepository.buscarPorPeriodo(dataInicial, dataFinal)
+        return pedidoRepository.buscarPorPeriodo(dataInicial, dataFinal)
                 .stream().toList();
-
-        return pedidos.stream().map(
-                pedidoEntity -> {
-                    PedidoDto pedido = new PedidoDto();
-                    return pedido.fromEntity(pedidoEntity);
-                }
-        ).toList();
 
     }
 
