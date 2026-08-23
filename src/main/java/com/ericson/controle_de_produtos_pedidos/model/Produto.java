@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "produto")
-@AllArgsConstructor
 @Getter
 @Setter
 public class Produto {
@@ -25,8 +24,6 @@ public class Produto {
     @ManyToOne
     @JoinColumn(name = "departamento_codigo")
     private Departamento departamento;
-    @ManyToOne
-    @JoinColumn(name = "produto_codigo")
-    private ProdutoPedido produtoPedido;
+
 
 }

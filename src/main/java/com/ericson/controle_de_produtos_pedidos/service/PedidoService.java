@@ -1,6 +1,5 @@
 package com.ericson.controle_de_produtos_pedidos.service;
 
-import com.ericson.controle_de_produtos_pedidos.dto.PedidoDto;
 import com.ericson.controle_de_produtos_pedidos.model.Pedido;
 import com.ericson.controle_de_produtos_pedidos.repository.PedidoRepository;
 import jakarta.transaction.Transactional;
@@ -17,22 +16,23 @@ public class PedidoService {
     @Autowired
     PedidoRepository pedidoRepository;
 
-
     public Pedido inserirPedido (Pedido pedido) {
         return pedidoRepository.save(pedido);
     }
 
-    public PedidoDto atualizar (PedidoDto pedidoDto) {
-       //PedidoEntity pedidoEntity = pedidoRepository.findById(pedidoDto.getNumero())
-       //        .orElseThrow(() -> new RuntimeException("Pedido não encontrado."));
-       return pedidoDto;
+    public Pedido atualizar(Pedido pedidoAtualizado) {
+        pedidoRepository.findById(pedidoAtualizado.getNumero())
+            .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+        return pedidoRepository.save(pedidoAtualizado);
     }
 
-    public Pedido getPedidoPorId(Integer codigo){
+    public void excluir(Integer numero) {
+        pedidoRepository.deleteById(numero);
+    }
 
-        return pedidoRepository.getReferenceById(codigo);
-
-
+    public Pedido consultarPorId(Integer numero) {
+        return pedidoRepository.findById(numero)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
     }
 
     public List<Pedido> getPedidosPorPeriodo(LocalDate dataInicial, LocalDate dataFinal){

@@ -19,11 +19,11 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
                 produto.codigo as codigo,
                 produto.descricao as descricao,
                 produto_pedido.quantidade as quantidade,
-                produto_pedido.preco_produto as preco
+                produto_pedido.preco as preco
             FROM pedido pedido
                 JOIN produto_pedido produto_pedido ON (pedido.numero = produto_pedido.numero)
                 JOIN produto produto ON (produto_pedido.codigo = produto.codigo)
-            WHERE pedido.data BETWEEN :dataInicial and :dataFinal
+            WHERE Date(pedido.data) BETWEEN :dataInicial and :dataFinal
             ORDER BY
                 pedido.numero, produto.codigo
             """,  nativeQuery = true)
