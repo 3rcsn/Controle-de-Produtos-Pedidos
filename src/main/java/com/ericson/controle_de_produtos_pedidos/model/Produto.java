@@ -1,18 +1,19 @@
 package com.ericson.controle_de_produtos_pedidos.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "produto")
-@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class ProdutoEntity {
+public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +22,11 @@ public class ProdutoEntity {
     @Column(name = "descricao")
     private String descricao;
     private BigDecimal preco;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "departamento", joinColumns = @JoinColumn(name = "codigo", nullable = false))
-    private DepartamentoEntity departamento;
+    @ManyToOne
+    @JoinColumn(name = "departamento_codigo")
+    private Departamento departamento;
+    @ManyToOne
+    @JoinColumn(name = "produto_codigo")
+    private ProdutoPedido produtoPedido;
 
 }

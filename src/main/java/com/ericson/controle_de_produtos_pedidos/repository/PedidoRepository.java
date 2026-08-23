@@ -1,6 +1,6 @@
 package com.ericson.controle_de_produtos_pedidos.repository;
 
-import com.ericson.controle_de_produtos_pedidos.model.PedidoEntity;
+import com.ericson.controle_de_produtos_pedidos.model.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,24 +10,24 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface PedidoRepository extends JpaRepository<PedidoEntity, Integer> {
+public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
     @Query(value = """
             SELECT
-                p.numero as numero,
-                p.data as data,
-                p.codigo as codigo,
-                p.descricao as descricao,
-                pp.quantidade as quantidade,
-                (pp.quantidade * pp.preco_produto) as total_item
-            FROM pedido p
-                JOIN produto_pedido pp ON (p.numero = pp.numero)
-                JOIN produto prod ON (pp.codigo = prod.codigo)
-            WHERE p.data BETWEEN :dataInicial and :dataFinal
+                pedido.numero as numero,
+                pedido.data as data,
+                produto.codigo as codigo,
+                produto.descricao as descricao,
+                produto_pedido.quantidade as quantidade,
+                produto_pedido.preco_produto as preco
+            FROM pedido pedido
+                JOIN produto_pedido produto_pedido ON (pedido.numero = produto_pedido.numero)
+                JOIN produto produto ON (produto_pedido.codigo = produto.codigo)
+            WHERE pedido.data BETWEEN :dataInicial and :dataFinal
             ORDER BY
-                p.numero, prod.codigo
+                pedido.numero, produto.codigo
             """,  nativeQuery = true)
-    List<PedidoEntity> buscarPorPeriodo(
+    List<Pedido> buscarPorPeriodo(
             @Param("dataInicial") LocalDate dataInicial,
             @Param("dataFinal") LocalDate dataFinal
     );
