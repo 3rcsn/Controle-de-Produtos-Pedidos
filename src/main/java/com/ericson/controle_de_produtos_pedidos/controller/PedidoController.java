@@ -30,18 +30,18 @@ public class PedidoController {
     }
 
     @PutMapping
-    public ResponseEntity<PedidoDto> atualizar (@RequestBody PedidoDto pedido) {
+    public ResponseEntity<Pedido> atualizar (@RequestBody Pedido pedido) {
 
-        PedidoDto pedidoAtualizado = pedidoService.atualizar(pedido);
+        Pedido pedidoAtualizado = pedidoService.atualizar(pedido);
 
         return ResponseEntity.ok(pedidoAtualizado);
 
     }
 
     @PatchMapping
-    public ResponseEntity<PedidoDto> atualizarParcialmente (@RequestBody PedidoDto pedido) {
+    public ResponseEntity<Pedido> atualizarParcialmente (@RequestBody Pedido pedido) {
 
-        PedidoDto pedidoAtualizado = pedidoService.atualizar(pedido);
+        Pedido pedidoAtualizado = pedidoService.atualizar(pedido);
 
         return ResponseEntity.ok(pedidoAtualizado);
     }
@@ -51,16 +51,16 @@ public class PedidoController {
         return  ResponseEntity.ok(pedido);
     }
 
-    @GetMapping("busca-por-id")
-    public ResponseEntity<Pedido> getPedidoPorId(@RequestParam Integer codigo) {
+    @GetMapping("busca-por-id/{codigo}")
+    public ResponseEntity<Pedido> getPedidoPorId(@PathVariable Integer codigo) {
 
-        Pedido pedido = pedidoService.getPedidoPorId(codigo);
+        Pedido pedido = pedidoService.consultarPorId(codigo);
         return ResponseEntity.ok(pedido);
 
     }
 
-    @GetMapping("busca-por-periodo")
-    public ResponseEntity<List<Pedido>> getPedidos(@RequestParam LocalDate dataInicial, LocalDate dataFinal) {
+    @GetMapping("busca-por-periodo/{dataInicial}/{dataFinal}")
+    public ResponseEntity<List<Pedido>> getPedidos(@PathVariable LocalDate dataInicial, LocalDate dataFinal) {
 
         List<Pedido> pedidos = pedidoService.getPedidosPorPeriodo(dataInicial, dataFinal);
         return ResponseEntity.ok(pedidos);

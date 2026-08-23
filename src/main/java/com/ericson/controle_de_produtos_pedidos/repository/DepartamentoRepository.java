@@ -14,21 +14,13 @@ import java.util.List;
 public interface DepartamentoRepository extends JpaRepository<Departamento, Integer> {
 
     @Query(value = """
-            SELECT
-                departamento.codigo as codigo_departamento,
-                produto.codigo as codigo_produto,
-                produto.descricao as descricao,
-                produto_pedido.quantidade as quantidade,
-                produto_pedido.preco_produto as preco
-            FROM departamento departamento
-                JOIN produto produto ON (produto_pedido.codigo = departamento.codigo)
-            WHERE pedido.data BETWEEN :dataInicial and :dataFinal
-            ORDER BY
-                pedido.numero, produto.codigo
-            """,  nativeQuery = true)
-    List<Pedido> buscarPorPeriodo(
-            @Param("dataInicial") LocalDate dataInicial,
-            @Param("dataFinal") LocalDate dataFinal
-    );
+        SELECT d.codigo, d.descricao, p.codigo, p.descricao
+        FROM DEPARTAMENTO d
+        JOIN PRODUTO p ON d.id = p.departamento_id
+        WHERE d.codigo BETWEEN :codInicio AND :codFim
+        ORDER BY d.codigo ASC, p.descricao ASC
+        """, nativeQuery = true)
+    List<Departamento> listarDepartamentoProdutos(@Param("codInicio") Integer codInicio,
+                                                     @Param("codFim") Integer codFim);
 
 }
