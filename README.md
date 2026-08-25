@@ -1,18 +1,14 @@
 # Controle-de-Produtos-Pedidos
 
-Documentação da API – Desafio Klab
+Documentação da API Controle de Produtos/Pedidos – Desafio Klab
 
 ▎ Escopo: Este documento descreve os endpoints expostos pelo PedidoController. Todos os endpoints são RESTful e retornam objetos JSON formatados pelo Spring Boot.
 
-Para executar a aplicacao certificar-se que a engine do Docker esta sendo executada, executar o comando docker compose up na raiz do projeto. 
+Para executar a aplicação certificar-se que a engine do Docker esta sendo executada, após isso basta executar a aplicação ControleDeProdutosPedidosApplication ou o comando docker compose up na raiz do projeto. 
 
-Necessario popular dados:
+A aplicação popula automaticamente a tabela departamento e produto com os valores contidos em /src/main/resources/import.sql 
 
-INSERT INTO departamento VALUES (1, 'Frios');
-INSERT INTO departamento VALUES (2, 'Ferragens');
-
-INSERT INTO produto VALUES (1, 'Tilápia', 10.99, 1);
-INSERT INTO produto VALUES (2, 'Parafuso', 5.99, 2);
+Para conexão externa via pgadmin utilizar o endereço localhost:5432 com usuário klab e senha secret. 
 
   ---
 Base Path
@@ -20,26 +16,28 @@ Base Path
 http://localhost:8080/api/pedido
 ▎ Substitua <porta> pela porta configurada no docker compose (default: 8080).
 
+~~~~
   ---
 Endpoints
 
 ┌────────┬──────────────────────────────────────────────┬──────────────────────────────────────────┬────────────────────┬────────────────────┬─────────────┐
 │ Método │                   Caminho                    │                Descrição                 │    Request Body    │   Response Body    │ Status HTTP │
 ├────────┼──────────────────────────────────────────────┼──────────────────────────────────────────┼────────────────────┼────────────────────┼─────────────┤
-│ POST   │ /inserir                                     │ Inserir um novo pedido                   │ model/Pedido.java  │ model/Pedido.java  │ 201 Created │
+│ POST   │ /inserir                                     │ Inserir um novo pedido                   │ model/Pedido.java  │ dto/PedidoDto.java │ 201 Created │
 ├────────┼──────────────────────────────────────────────┼──────────────────────────────────────────┼────────────────────┼────────────────────┼─────────────┤
-│ PUT    │ /                                            │ Atualizar um pedido completo             │ model/Pedido.java  │ model/Pedido.java  │ 200 OK      │
+│ PUT    │ /atualizar                                   │ Atualizar um pedido completo             │ model/Pedido.java  │ dto/PedidoDto.java │ 200 OK      │
 ├────────┼──────────────────────────────────────────────┼──────────────────────────────────────────┼────────────────────┼────────────────────┼─────────────┤
-│ PATCH  │ /                                            │ Atualizar parcialmente um pedido         │ model/Pedido.java  │ model/Pedido.java  │ 200 OK      │
+│ PATCH  │ /atualizar-parcialmente                      │ Atualizar parcialmente um pedido         │ model/Pedido.java  │ dto/PedidoDto.java │ 200 OK      │
 ├────────┼──────────────────────────────────────────────┼──────────────────────────────────────────┼────────────────────┼────────────────────┼─────────────┤
-│ DELETE │ /                                            │ Excluir um pedido                        │ dto/PedidoDto.java │ PedidoDto          │ 200 OK      │
+│ DELETE │ /excluir                                     │ Excluir um pedido                        │ dto/PedidoDto.java │ dto/PedidoDto.java │ 200 OK      │
 ├────────┼──────────────────────────────────────────────┼──────────────────────────────────────────┼────────────────────┼────────────────────┼─────────────┤
-│ GET    │ /busca-por-id/{codigo}                       │ Consultar um pedido pelo seu código (ID) │ —                  │ model/Pedido.java  │ 200 OK      │
+│ GET    │ /busca-por-id/{codigo}                       │ Consultar um pedido pelo seu código (ID) │ —                  │ dto/PedidoDto.java │ 200 OK      │
 ├────────┼──────────────────────────────────────────────┼──────────────────────────────────────────┼────────────────────┼────────────────────┼─────────────┤
-│ GET    │ /busca-por-periodo/{dataInicial}/{dataFinal} │ Listar pedidos dentro de um período      │ —                  │ List&lt;Pedido&gt; │ 200 OK      │
+│ GET    │ /busca-por-periodo/{dataInicial}/{dataFinal} │ Listar pedidos dentro de um período      │ —                  │ List<PedidoDto>    │ 200 OK      │
 └────────┴──────────────────────────────────────────────┴──────────────────────────────────────────┴────────────────────┴────────────────────┴─────────────┘
 
   ---
+~~~~
 
 Exemplos de Chamadas
 
@@ -88,6 +86,7 @@ Content-Type: application/json
 }
 Resposta (200 OK) – devolve o PedidoDto que foi excluído.
 
+~~~~
 3. Buscar por ID
 
 GET /api/pedido/busca-por-id/123
@@ -116,3 +115,4 @@ Erros comuns
 └───────────────────────────┴──────────────────────────────────────────────────────────────────────┴───────────────────────────────────────────────────────────────────────────┘
 
   ---
+~~~~
