@@ -14,18 +14,19 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
     @Query(value = """
             SELECT
-                pedido.numero as numero,
-                pedido.data as data,
-                produto.codigo as codigo,
-                produto.descricao as descricao,
-                produto_pedido.quantidade as quantidade,
-                produto_pedido.preco as preco
+            	pedido.numero as numero,
+            	pedido.data as data,
+            	produto.codigo as codigo,
+            	produto.descricao as descricao,
+            	produto_pedido.quantidade as quantidade,
+            	produto_pedido.preco_unitario as preco_unitario,
+            	(produto_pedido.preco_unitario * quantidade) as preco_total
             FROM pedido pedido
-                JOIN produto_pedido produto_pedido ON (pedido.numero = produto_pedido.numero)
-                JOIN produto produto ON (produto_pedido.codigo = produto.codigo)
+            	JOIN produto_pedido produto_pedido ON (pedido.numero = produto_pedido.numero)
+            	JOIN produto produto ON (produto_pedido.codigo = produto.codigo)
             WHERE Date(pedido.data) BETWEEN :dataInicial and :dataFinal
             ORDER BY
-                pedido.numero, produto.codigo
+            	pedido.numero, produto.codigo
             """,  nativeQuery = true)
     List<Pedido> buscarPorPeriodo(
             @Param("dataInicial") LocalDate dataInicial,
