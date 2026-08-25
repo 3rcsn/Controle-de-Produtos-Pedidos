@@ -21,15 +21,15 @@ public class PedidoController {
     }
 
     @PostMapping("inserir")
-    public ResponseEntity<Pedido> inserirPedido (@RequestBody Pedido pedido) {
+    public ResponseEntity<PedidoDto> inserir (@RequestBody PedidoDto pedido) {
 
-        Pedido novoPedido = pedidoService.inserirPedido(pedido);
+        PedidoDto novoPedido = pedidoService.inserirPedidoDto(pedido);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(novoPedido);
 
     }
 
-    @PutMapping
+    @PutMapping("atualizar")
     public ResponseEntity<Pedido> atualizar (@RequestBody Pedido pedido) {
 
         Pedido pedidoAtualizado = pedidoService.atualizar(pedido);
@@ -38,7 +38,7 @@ public class PedidoController {
 
     }
 
-    @PatchMapping
+    @PatchMapping("atualizar-parcialmente")
     public ResponseEntity<Pedido> atualizarParcialmente (@RequestBody Pedido pedido) {
 
         Pedido pedidoAtualizado = pedidoService.atualizar(pedido);
@@ -46,24 +46,20 @@ public class PedidoController {
         return ResponseEntity.ok(pedidoAtualizado);
     }
 
-    @DeleteMapping
+    @DeleteMapping("excluir")
     public ResponseEntity<PedidoDto> excluir (@RequestBody PedidoDto pedido) {
         return  ResponseEntity.ok(pedido);
     }
 
     @GetMapping("busca-por-id/{codigo}")
-    public ResponseEntity<Pedido> getPedidoPorId(@PathVariable Integer codigo) {
-
-        Pedido pedido = pedidoService.consultarPorId(codigo);
-        return ResponseEntity.ok(pedido);
+    public ResponseEntity<PedidoDto> getPedidoPorId(@PathVariable Integer codigo) {
+        return ResponseEntity.ok(pedidoService.consultarPorId(codigo));
 
     }
 
     @GetMapping("busca-por-periodo/{dataInicial}/{dataFinal}")
-    public ResponseEntity<List<Pedido>> getPedidos(@PathVariable LocalDate dataInicial, LocalDate dataFinal) {
-
-        List<Pedido> pedidos = pedidoService.getPedidosPorPeriodo(dataInicial, dataFinal);
-        return ResponseEntity.ok(pedidos);
+    public ResponseEntity<List<PedidoDto>> getPedidos(@PathVariable LocalDate dataInicial, LocalDate dataFinal) {
+        return ResponseEntity.ok(pedidoService.getPedidosPorPeriodo(dataInicial, dataFinal));
 
     }
 

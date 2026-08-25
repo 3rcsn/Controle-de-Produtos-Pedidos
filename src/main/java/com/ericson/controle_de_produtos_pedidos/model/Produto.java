@@ -3,15 +3,17 @@ package com.ericson.controle_de_produtos_pedidos.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Table(name = "produto")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Produto {
 
     @Id
