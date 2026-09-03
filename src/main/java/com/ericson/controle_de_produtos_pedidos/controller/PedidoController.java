@@ -30,20 +30,17 @@ public class PedidoController {
     }
 
     @PutMapping("atualizar")
-    public ResponseEntity<Pedido> atualizar (@RequestBody Pedido pedido) {
+    public ResponseEntity<PedidoDto> atualizar (@RequestBody PedidoDto pedido) {
 
-        Pedido pedidoAtualizado = pedidoService.atualizar(pedido);
+        PedidoDto pedidoAtualizado = pedidoService.atualizar(pedido);
 
         return ResponseEntity.ok(pedidoAtualizado);
 
     }
 
     @PatchMapping("atualizar-parcialmente")
-    public ResponseEntity<Pedido> atualizarParcialmente (@RequestBody Pedido pedido) {
-
-        Pedido pedidoAtualizado = pedidoService.atualizar(pedido);
-
-        return ResponseEntity.ok(pedidoAtualizado);
+    public ResponseEntity<PedidoDto> atualizarParcialmente (@RequestBody PedidoDto pedido) {
+        return ResponseEntity.ok(pedidoService.atualizar(pedido));
     }
 
     @DeleteMapping("excluir")
@@ -51,9 +48,9 @@ public class PedidoController {
         return  ResponseEntity.ok(pedido);
     }
 
-    @GetMapping("busca-por-id/{codigo}")
-    public ResponseEntity<PedidoDto> getPedidoPorId(@PathVariable Integer codigo) {
-        return ResponseEntity.ok(pedidoService.consultarPorId(codigo));
+    @GetMapping("busca-por-id/{numero}")
+    public ResponseEntity<PedidoDto> getPedidoPorId(@PathVariable Integer numero) {
+        return ResponseEntity.ok(pedidoService.consultarPorId(numero));
 
     }
 

@@ -1,6 +1,7 @@
 package com.ericson.controle_de_produtos_pedidos.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Formula;
 import org.springframework.beans.BeanUtils;
 import com.ericson.controle_de_produtos_pedidos.dto.PedidoDto;
 
@@ -17,7 +18,6 @@ public class Pedido {
     private LocalDate data;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
     private List<ProdutoPedido> produtos;
 
     @Transient
