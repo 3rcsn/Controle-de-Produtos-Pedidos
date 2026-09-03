@@ -2,6 +2,7 @@ package com.ericson.controle_de_produtos_pedidos.model;
 
 import com.ericson.controle_de_produtos_pedidos.dto.ProdutoPedidoDto;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Formula;
 import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
@@ -15,7 +16,7 @@ public class  ProdutoPedido {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "numero", referencedColumnName = "numero")
+    @JoinColumn(name = "numero")
     private Pedido pedido;
 
     private Integer codigo;

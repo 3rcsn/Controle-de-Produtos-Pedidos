@@ -22,25 +22,18 @@ public class PedidoService {
 
     public PedidoDto inserirPedidoDto (PedidoDto pedidoDto) {
 
-        Pedido pedidoEntidade = new Pedido(pedidoDto);
+        if (pedidoRepository.findById(pedidoDto.getNumero()).isPresent()) {
+            throw new RuntimeException("Pedido já criado");
+        }
 
-        List<ProdutoPedido> produtosAux = new ArrayList<>();
-
-        pedidoDto.getProdutos().stream().forEach(produtoPedidoDto -> {
-            ProdutoPedido produtoPedido = new ProdutoPedido(produtoPedidoDto);
-            produtoPedido.setPedido(pedidoEntidade);
-            produtosAux.add(produtoPedido);
-        });
-
-        pedidoEntidade.setProdutos(produtosAux);
-
-        return new PedidoDto(pedidoRepository.save(pedidoEntidade));
+        return new PedidoDto(pedidoRepository.save(ajustarAtributosProdutosPedido(pedidoDto)));
     }
 
-    public Pedido atualizar(Pedido pedidoAtualizado) {
-        pedidoRepository.findById(pedidoAtualizado.getNumero())
+    public PedidoDto atualizar(PedidoDto pedidoAtualizado) {
+        Pedido pedido = pedidoRepository.findById(pedidoAtualizado.getNumero())
             .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
-        return pedidoRepository.save(pedidoAtualizado);
+
+        return new PedidoDto(pedidoRepository.save(pedido));
     }
 
     public void excluir(Integer numero) {
@@ -49,12 +42,14 @@ public class PedidoService {
 
     public PedidoDto consultarPorId(Integer numero) {
 
-        PedidoDto pedido = new PedidoDto(pedidoRepository.findById(numero)
-                .orElseThrow(() -> new RuntimeException("Pedido não encontrado")));
+        Pedido pedidoEntidade = pedidoRepository.findById(numero)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
 
-        pedido.setValorTotal(calcularValorTotalPedido(pedido));
+        PedidoDto pedidoDto = new PedidoDto(pedidoEntidade);
 
-        return pedido;
+        pedidoDto.setValorTotal(calcularValorTotalPedido(pedidoDto));
+
+        return new PedidoDto(pedidoEntidade);
 
     }
 
@@ -80,6 +75,24 @@ public class PedidoService {
         });
 
         return valorTotal;
+    }
+
+    private Pedido ajustarAtributosProdutosPedido(PedidoDto pedidoDto) {
+
+        Pedido pedidoEntidade = new Pedido(pedidoDto);
+
+        List<ProdutoPedido> produtosAux = new ArrayList<>();
+
+        pedidoDto.getProdutos().stream().forEach(produtoPedidoDto -> {
+            ProdutoPedido produtoPedido = new ProdutoPedido(produtoPedidoDto);
+            produtoPedido.setPedido(pedidoEntidade);
+            produtosAux.add(produtoPedido);
+        });
+
+        pedidoEntidade.setProdutos(produtosAux);
+
+        return pedidoEntidade;
+
     }
 
 }
