@@ -1,6 +1,6 @@
 # Controle-de-Produtos-Pedidos
 
-Documentação da API Controle de Produtos/Pedidos – Desafio Klab
+Documentação da API Controle de Produtos/Pedidos
 
 ▎ Escopo: Este documento descreve os endpoints expostos pelo PedidoController. Todos os endpoints são RESTful e retornam objetos JSON formatados pelo Spring Boot.
 
@@ -8,7 +8,7 @@ Para executar a aplicação certificar-se que a engine do Docker esta sendo exec
 
 A aplicação popula automaticamente a tabela departamento e produto com os valores contidos em /src/main/resources/import.sql 
 
-Para conexão externa via pgadmin utilizar o endereço localhost:5432 com usuário klab e senha secret. 
+Para conexão externa via pgadmin utilizar o endereço localhost:5432 com usuário e senha. 
 
   ---
 Base Path
