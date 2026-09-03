@@ -3,7 +3,7 @@ services:
     image: 'postgres:18.4'
     restart: unless-stopped
     environment:
-      - 'POSTGRES_USER=klab'
+      - 'POSTGRES_USER=admin'
       - 'POSTGRES_PASSWORD=secret'
       - 'POSTGRES_DB=controle-de-produtos-pedidos-db'
     ports:
@@ -19,7 +19,7 @@ services:
     environment:
       - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/controle-de-produtos-pedidos-db'
       - 'SPRING_DATASOURCE_PASSWORD=secret'
-      - 'SPRING_DATASOURCE_USERNAME=klab'
+      - 'SPRING_DATASOURCE_USERNAME=admin'
       - 'SPRING_JPA_HIBERNATE_DDL_AUTO=update'
     ports:
       - '80:8080'
